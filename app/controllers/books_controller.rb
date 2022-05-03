@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+  before_action :correct_user, only: [ :create, :edit, :update, :destroy]
 
   def show
     @book = Book.find(params[:id])
@@ -45,5 +45,9 @@ class BooksController < ApplicationController
     params.require(:book).permit(:title, :body)
   end
 
+  def correct_user
+    @book = current_user&.books&.find_by(id: params[:id])
+    redirect_to root_url unless @book
+  end
 
 end
