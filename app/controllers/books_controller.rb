@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
-  before_action :correct_user, only: [ :create, :edit, :update, :destroy]
+  before_action :require_user_logged_in
+  before_action :correct_user, only: [ :edit, :update, :destroy]
 
   def show
     @book = Book.find(params[:id])
